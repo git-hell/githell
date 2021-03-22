@@ -1,34 +1,178 @@
-Potato
-======
+[![dependency status](https://deps.rs/crate/natls/2.1.9/status.svg)](https://deps.rs/crate/natls/2.1.9) [![natls](https://snapcraft.io/natls/badge.svg)](https://snapcraft.io/natls)
 
-[![Discord](https://i.imgur.com/HLPoNnY.png)](https://discord.gg/5hBDT2P)
+# ⚡️ nat ⚡️
 
-If you fork this you can say that you forked a potato.
+# Massive nat update!
 
-![potato](http://i.imgur.com/dRnvRZZ.jpg)
+![banner](assets/natbanner.png)
 
-Forking potatoes is an ancient and well-mannered tradition.
+![demo](assets/natdemo.png)
 
-The potato first appeared in Peru about ten thousand years ago. The potato was an early food source, and likely a highly traded good in early South America. Having been traded for several thousand years, and enduring much artificial selection, the explorers of the sixteenth and seventeenth century brought the potato back to Europe, where the crop grew. Originally thought to be poisonous and evil, the crop didn't become a major food for another hundred years.
 
-Following its introduction into China toward the end of the Ming dynasty in the seventeenth century, the potato immediately became a delicacy of the imperial family.
+[What is nat?](https://github.com/willdoescode/nat#what-is-nat)
 
-By the time potatoes were introduced into Europe, the fork was already prevalent. Hence, started the tradition of forking the potato.
+[Highlights](https://github.com/willdoescode/nat#highlights)
 
-A lack of equal rights for potatoes led to a disease spreading between them and endangered the tradition of forking the potato in Ireland. Fortunately, other areas of the world maintained their healthy, diverse potatoes, and so the tradition lives on.
+[Installation](https://github.com/willdoescode/nat#installation)
 
-You too can continue this tradition of forking potatoes in the modern age by clicking the button above labeled "fork."
+[Understanding permissions output](https://github.com/willdoescode/nat#understanding-permissions-output)
 
-Pull Requests
--------------
+## What is nat?
 
-If you have forked the potato and are looking to submit a pull request, please adhere to the following rules.
+Nat is a complete replacement for the 'ls' command
 
-- Our potato is lightweight, and it doesn't need non-potato-related items.
-- If you are adding code to the potato, please follow the lightweight mantra (no * imports, etc.).
-- Make sure that your code compiles and runs, if you are changing code.
-- Please format your code.
-- Our potato is a mainstream potato; it doesn't enjoy being full of obscure code/references (not a hipster potato).
-- Please "mash your potatoes" (squash your PRs with interactive rebase).
-- If a comment inquiring for more information is made on your PR, a reply is expected within a week. The request will be closed if not.
-- To stress: **no non-potato-related items**.
+Nats features include
+
+- Showing file permissions
+- Showing file size
+- Showing the date that the file was modified last
+- Showing the user that the file belongs to 
+- Showing the group that the file belongs to
+- An easy to use file search
+- A splash of color to distinguish between files and folders
+
+
+## Join the nat [discord server](https://discord.gg/2Fn8veP)
+## Beta test the natls proof of concept re-write
+
+```bash
+cargo install nat-poc
+```
+
+
+## Highlights
+
+- A rather large german tech blog wrote an [article](https://www.heise.de/news/In-Rust-geschrieben-und-uebersichtlicher-nat-will-ls-ersetzen-4937429.html) about nat
+## Usage
+
+### Installation 
+
+```bash
+cargo install natls
+```
+## Homebrew
+
+```bash
+brew install willdoescode/natls/natls
+```
+
+### Alternative (linux)
+
+[![natls](https://snapcraft.io/natls/trending.svg?name=0)](https://snapcraft.io/natls)
+
+```bash
+sudo snap install natls
+```
+
+### To update natls with snap
+
+```bash
+sudo snap refresh natls
+``` 
+#### Another alternative (arch linux)
+[nat](https://aur.archlinux.org/packages/nat/)
+```bash
+yay -S nat
+```
+(or your AUR helper of choice)
+### Manual installation
+
+#### Linux
+
+```bash
+apt-get install rustc cargo
+cd /tmp
+
+git clone https://github.com/willdoescode/nat.git
+cd /tmp/nat
+
+cargo build --release
+
+cd target/release
+
+./nat
+```
+
+To install nat locally
+```bash
+cd /tmp/nat
+cargo install --path .
+```
+and add this line to your `$HOME/.bashrc`
+
+```bash
+export PATH=$PATH:$HOME/.cargo/bin
+```
+
+### Updating nat
+```bash
+cargo install natls
+```
+if there is a new version available cargo will install it
+
+### Using nat with ls
+
+in zshrc or bashrc
+```bash
+alias ls='natls'
+```
+
+### Running
+
+```bash
+natls <dir>
+```
+
+#### Searching for file
+
+```bash
+natls <file>
+```
+
+### To edit the code
+
+```bash
+git clone https://github.com/willdoescode/nat.git
+cd nat
+```
+
+## Uninstall steps
+
+```bash
+cargo uninstall natls
+```
+
+## Understanding permissions output
+
+Imagine file permissions as three ones or zeros
+
+```
+000 no access
+100 read
+010 write
+001 execute
+101 read and execute
+110 read and write
+011 write and execute
+111 read write and execute
+```
+
+what nat does is it combines these permissions for
+
+user-group-other
+
+so if the user has read write and execute and the group has read and write and other has no perms the output will look like
+
+```
+rwxrw----
+```
+
+If all groups have read write and execute the output would look like
+
+```
+rwxrwxrwx
+```
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/willdoescode/nat.svg)](https://starchart.cc/willdoescode/nat)
