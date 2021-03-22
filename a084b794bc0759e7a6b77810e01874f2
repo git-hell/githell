@@ -1,6 +1,7 @@
-target/
-*.class
-.classpath
-.project
-.idea
-*.iml
+/target
+.DS_Store
+/.idea
+/linux
+/macOs
+*.snap
+notes.txt
