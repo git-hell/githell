@@ -1,69 +1,34 @@
-<p align="center">
-<img src="https://i.imgur.com/x8rtGr4.gif" alt="3D Game Shaders For Beginners" title="3D Game Shaders For Beginners">
-</p>
+Potato
+======
 
-# 3D Game Shaders For Beginners
+[![Discord](https://i.imgur.com/HLPoNnY.png)](https://discord.gg/5hBDT2P)
 
-Interested in adding
-textures,
-lighting,
-shadows,
-normal maps,
-glowing objects,
-ambient occlusion,
-reflections,
-refractions,
-and more to your 3D game?
-Great!
-Below is a collection of shading techniques that will take your game visuals to new heights.
-I've explained each technique in such a way that you can take what you learn here and apply/port it to
-whatever stack you use—be it Godot, Unity, Unreal, or something else.
-For the glue in between the shaders,
-I've chosen the fabulous Panda3D game engine and the OpenGL Shading Language (GLSL).
-So if that is your stack, then you'll also get the benefit of learning how to use these
-shading techniques with Panda3D and OpenGL specifically.
+If you fork this you can say that you forked a potato.
 
-## Table Of Contents
+![potato](http://i.imgur.com/dRnvRZZ.jpg)
 
-- [Setup](sections/setup.md)
-- [Building The Demo](sections/building-the-demo.md)
-- [Running The Demo](sections/running-the-demo.md)
-- [Reference Frames](sections/reference-frames.md)
-- [GLSL](sections/glsl.md)
-- [Render To Texture](sections/render-to-texture.md)
-- [Texturing](sections/texturing.md)
-- [Lighting](sections/lighting.md)
-- [Blinn-Phong](sections/blinn-phong.md)
-- [Fresnel Factor](sections/fresnel-factor.md)
-- [Rim Lighting](sections/rim-lighting.md)
-- [Cel Shading](sections/cel-shading.md)
-- [Normal Mapping](sections/normal-mapping.md)
-- [Deferred Rendering](sections/deferred-rendering.md)
-- [Fog](sections/fog.md)
-- [Blur](sections/blur.md)
-- [Bloom](sections/bloom.md)
-- [SSAO](sections/ssao.md)
-- [Motion Blur](sections/motion-blur.md)
-- [Screen Space Reflection](sections/screen-space-reflection.md)
-- [Screen Space Refraction](sections/screen-space-refraction.md)
-- [Foam](sections/foam.md)
-- [Flow Mapping](sections/flow-mapping.md)
-- [Outlining](sections/outlining.md)
-- [Depth Of Field](sections/depth-of-field.md)
-- [Posterization](sections/posterization.md)
-- [Pixelization](sections/pixelization.md)
-- [Sharpen](sections/sharpen.md)
-- [Dilation](sections/dilation.md)
-- [Film Grain](sections/film-grain.md)
-- [Lookup Table (LUT)](sections/lookup-table.md)
-- [Gamma Correction](sections/gamma-correction.md)
+Forking potatoes is an ancient and well-mannered tradition.
 
-## Attributions
+The potato first appeared in Peru about ten thousand years ago. The potato was an early food source, and likely a highly traded good in early South America. Having been traded for several thousand years, and enduring much artificial selection, the explorers of the sixteenth and seventeenth century brought the potato back to Europe, where the crop grew. Originally thought to be poisonous and evil, the crop didn't become a major food for another hundred years.
 
-- [Kiwi Soda Font](https://fontenddev.com/fonts/kiwi-soda/)
+Following its introduction into China toward the end of the Ming dynasty in the seventeenth century, the potato immediately became a delicacy of the imperial family.
 
-## Copyright
+By the time potatoes were introduced into Europe, the fork was already prevalent. Hence, started the tradition of forking the potato.
 
-(C) 2019 David Lettier
-<br>
-[lettier.com](https://www.lettier.com)
+A lack of equal rights for potatoes led to a disease spreading between them and endangered the tradition of forking the potato in Ireland. Fortunately, other areas of the world maintained their healthy, diverse potatoes, and so the tradition lives on.
+
+You too can continue this tradition of forking potatoes in the modern age by clicking the button above labeled "fork."
+
+Pull Requests
+-------------
+
+If you have forked the potato and are looking to submit a pull request, please adhere to the following rules.
+
+- Our potato is lightweight, and it doesn't need non-potato-related items.
+- If you are adding code to the potato, please follow the lightweight mantra (no * imports, etc.).
+- Make sure that your code compiles and runs, if you are changing code.
+- Please format your code.
+- Our potato is a mainstream potato; it doesn't enjoy being full of obscure code/references (not a hipster potato).
+- Please "mash your potatoes" (squash your PRs with interactive rebase).
+- If a comment inquiring for more information is made on your PR, a reply is expected within a week. The request will be closed if not.
+- To stress: **no non-potato-related items**.
