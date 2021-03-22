@@ -1,1 +1,20 @@
-{"name":"shard.yml","path":"shard.yml","sha":"fee510a0e1fb726c014de96e60f76559d61908b0","size":311,"url":"https://api.github.com/repos/sugarfi/sunrise/contents/shard.yml?ref=master","html_url":"https://github.com/sugarfi/sunrise/blob/master/shard.yml","git_url":"https://api.github.com/repos/sugarfi/sunrise/git/blobs/fee510a0e1fb726c014de96e60f76559d61908b0","download_url":"https://raw.githubusercontent.com/sugarfi/sunrise/master/shard.yml","type":"file","content":"bmFtZTogaXNsYW5kCnZlcnNpb246IDAuMS4wCgojIGF1dGhvcnM6CiMgICAt\nIG5hbWUgPGVtYWlsQGV4YW1wbGUuY29tPgoKIyBkZXNjcmlwdGlvbjogfAoj\nICAgU2hvcnQgZGVzY3JpcHRpb24gb2YgaXNsYW5kCgpkZXBlbmRlbmNpZXM6\nCiAgY2VsZXN0aW5lOgogICAgZ2l0aHViOiBjZWxlc3RpbmVjci9jZWxlc3Rp\nbmUKICBrZW1hbDoKICAgIGdpdGh1Yjoga2VtYWxjci9rZW1hbAoKIyBkZXZl\nbG9wbWVudF9kZXBlbmRlbmNpZXM6CiMgICB3ZWJtb2NrOgojICAgICBnaXRo\ndWI6IG1hbmFzdGVjaC93ZWJtb2NrLmNyCgojIGxpY2Vuc2U6IE1JVAo=\n","encoding":"base64","_links":{"self":"https://api.github.com/repos/sugarfi/sunrise/contents/shard.yml?ref=master","git":"https://api.github.com/repos/sugarfi/sunrise/git/blobs/fee510a0e1fb726c014de96e60f76559d61908b0","html":"https://github.com/sugarfi/sunrise/blob/master/shard.yml"}}
+name: island
+version: 0.1.0
+
+# authors:
+#   - name <email@example.com>
+
+# description: |
+#   Short description of island
+
+dependencies:
+  celestine:
+    github: celestinecr/celestine
+  kemal:
+    github: kemalcr/kemal
+
+# development_dependencies:
+#   webmock:
+#     github: manastech/webmock.cr
+
+# license: MIT
