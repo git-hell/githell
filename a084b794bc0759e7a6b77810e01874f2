@@ -1,1 +1,9 @@
-lib/
+*.o
+*.elf
+*.bin
+*.lib
+*.a
+*.img
+*.tar
+*.swp
+/bin
