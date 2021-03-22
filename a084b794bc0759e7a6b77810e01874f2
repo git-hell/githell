@@ -1,7 +1,2 @@
-/target
-.DS_Store
-/.idea
-/linux
-/macOs
-*.snap
-notes.txt
+.env
+lib/
