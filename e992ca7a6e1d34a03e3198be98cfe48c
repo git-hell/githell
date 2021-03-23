@@ -1,0 +1,59 @@
+environment:
+  matrix:
+    # For Python versions available on Appveyor, see
+    # http://www.appveyor.com/docs/installed-software#python
+    - PYTHON: "C:\\Python36-x64"
+
+# Do not build feature branch with open Pull Requests
+skip_branch_with_pr: true
+
+init:
+  - ps: if ($env:PRE_BUILD_DEBUG) {iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))}
+  # exit if secure variables are unset (saves time if fired by a non-team pull request)
+  - ps: if ($env:GH_SSH_PRIVATE_KEY -eq $null) { exit }
+
+  - git config --global user.name oll-bot
+  - git config --global user.email developers@openlawlib.org
+
+install:
+  # upgrade pip
+  - "%PYTHON%\\python.exe -m pip install --upgrade pip"
+
+  # the only way we can use the deploy key is by putting it in an environment variable (see above)
+  # and then using PowerShell (ps) to copy the environment variable into a file (see below)
+  # begin/end key lines should be in the environment variable
+  - ps: $key = "-----BEGIN RSA PRIVATE KEY-----`n"
+  - ps: $key += $env:GH_SSH_PRIVATE_KEY.Replace(" ", "`n")
+  - ps: $key += "`n-----END RSA PRIVATE KEY-----`n"
+  - ps: Set-Content c:\users\appveyor\.ssh\id_rsa $key
+
+before_build:
+  # clone the repos needed prior to codifying and building the HTML
+  - git clone --depth 1 --branch %appveyor_repo_branch% git@github.com:DCCouncil/dc-law-html.git ..\dc-law-html ||
+    git clone --depth 1 git@github.com:DCCouncil/dc-law-html.git ..\dc-law-html
+  - git clone --depth 1 --branch %appveyor_repo_branch% git@github.com:DCCouncil/dc-law-xml-codified.git ..\dc-law-xml-codified ||
+    git clone --depth 1 git@github.com:DCCouncil/dc-law-xml-codified.git ..\dc-law-xml-codified
+  # use or create a branch in dc-law-html with the same name
+  - git -C ..\dc-law-html fetch origin %appveyor_repo_branch% &&
+    git -C ..\dc-law-html checkout %appveyor_repo_branch% ||
+    git -C ..\dc-law-html checkout -b %appveyor_repo_branch%
+  # use or create a branch in dc-law-xml-codified with the same name
+  - git -C ..\dc-law-xml-codified fetch origin %appveyor_repo_branch% &&
+    git -C ..\dc-law-xml-codified checkout %appveyor_repo_branch% ||
+    git -C ..\dc-law-xml-codified checkout -b %appveyor_repo_branch%
+  # install versioned resources (if and only if the build is a tag or cron build)
+  - "%PYTHON%\\python.exe -m pip -q install wheel"
+  - "%PYTHON%\\python.exe -m pip -q install --src .. -r requirements.txt"
+  # print out the git commits for each repo
+  - git -C ..\dc-law-xml-codified rev-parse HEAD
+  - git -C ..\dc-law-html rev-parse HEAD
+
+build_script:
+  - ps: $env:FLAG = If ($env:APPVEYOR_REPO_BRANCH -eq "master" -And $env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null) { "--deploy" }
+  - "%PYTHON%\\python.exe -u -m ol_us_dc ci --prebuild 3 %FLAG%"
+
+test_script:
+  - echo Skipping doomed test discovery to save time
+
+on_finish:
+  - ps: if ($env:POST_BUILD_DEBUG) {$blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))}
