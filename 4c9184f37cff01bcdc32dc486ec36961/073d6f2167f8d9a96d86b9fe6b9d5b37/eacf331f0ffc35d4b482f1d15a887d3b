@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>the diary</title>
+</head>
+<body>
+    <h1>submissions</h1>
+    <p>view all current submissions.</p>
+    <a href="/">back to home</a>
+    <hr/>
+    <ul id="subs">
+    </ul>
+    <script src="/submissions/index.js"></script>
+<style>
+a { color: blue; }
+</style>
+</body>
+</html>
