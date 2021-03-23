@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>submit an entry | the diary</title>
+</head>
+<body>
+    <h1>submit an entry</h1>
+    <p>
+        submit an entry here.
+    </p>
+    <a href="/">back to home</a>
+        <hr/>
+    <form method="POST" enctype="application/x-www-form-urlencoded">
+        <textarea rows="8" cols="60" name="entry"></textarea>
+        <br/><br/>
+        <input type="submit" />
+    </form>
+<style>
+a { color: blue; }
+</style>
+</body>
+</html>
