@@ -1,39 +1,35 @@
-built
-doc
-Gulpfile.js
-internal
-jenkins.sh
-lib/README.md
-lib/enu
-netci.groovy
-scripts
-src
-tests
-Jakefile.js
-.devcontainer
-.eslintrc
-.eslintignore
-.editorconfig
-.failed-tests
-.git
-.git/
-.gitattributes
-.github/
-.gitmodules
-.settings/
-.travis.yml
-.circleci
-.vscode/
-.parallelperf.json
-.mailmap
-test.config
+# NPM/Yarn
+node_modules/
 package-lock.json
 yarn.lock
-CONTRIBUTING.md
-TEST-results.xml
-.dockerignore
-Dockerfile
+yarn-error.log
+
+# Testing
+test*.html
+coverage
+
+# Build Config
+tsconfig.json
+rollup.config.js
+rollup-dev.config.js
+.gitignore
+.babelrc
+.travis.yml
+
+# Raw source
+src/
+
+# Linting
+.prettierrc
+.prettierignore
+
+# Editor Config
+.vscode/
+.idea/
+settings.json
 .DS_Store
-.eslintrc.json
-.yarnrc
-tmp
+
+# Misc
+.github/
+docs/
+scratch.md
