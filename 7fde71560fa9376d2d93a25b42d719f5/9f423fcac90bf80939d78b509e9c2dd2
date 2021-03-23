@@ -1,74 +1,90 @@
 {
 	"editor.insertSpaces": false,
+	"files.trimTrailingWhitespace": true,
+	"files.exclude": {
+		".git": true,
+		".build": true,
+		"**/.DS_Store": true,
+		"build/**/*.js": {
+			"when": "$(basename).ts"
+		},
+		"src/vs/server": false
+	},
 	"files.associations": {
-		"cctype": "cpp",
-		"clocale": "cpp",
-		"cmath": "cpp",
-		"csignal": "cpp",
-		"cstdarg": "cpp",
-		"cstddef": "cpp",
-		"cstdio": "cpp",
-		"cstdlib": "cpp",
-		"cstring": "cpp",
-		"ctime": "cpp",
-		"cwchar": "cpp",
-		"cwctype": "cpp",
-		"*.ipp": "cpp",
-		"array": "cpp",
-		"atomic": "cpp",
-		"hash_map": "cpp",
-		"hash_set": "cpp",
-		"strstream": "cpp",
-		"*.tcc": "cpp",
-		"bitset": "cpp",
-		"chrono": "cpp",
-		"cinttypes": "cpp",
-		"codecvt": "cpp",
-		"complex": "cpp",
-		"condition_variable": "cpp",
-		"cstdint": "cpp",
-		"deque": "cpp",
-		"forward_list": "cpp",
-		"list": "cpp",
-		"unordered_map": "cpp",
-		"unordered_set": "cpp",
-		"vector": "cpp",
-		"exception": "cpp",
-		"algorithm": "cpp",
-		"functional": "cpp",
-		"iterator": "cpp",
-		"map": "cpp",
-		"memory": "cpp",
-		"memory_resource": "cpp",
-		"numeric": "cpp",
-		"optional": "cpp",
-		"random": "cpp",
-		"ratio": "cpp",
-		"regex": "cpp",
-		"set": "cpp",
-		"string": "cpp",
-		"string_view": "cpp",
-		"system_error": "cpp",
-		"tuple": "cpp",
-		"type_traits": "cpp",
-		"utility": "cpp",
-		"fstream": "cpp",
-		"future": "cpp",
-		"initializer_list": "cpp",
-		"iomanip": "cpp",
-		"iosfwd": "cpp",
-		"iostream": "cpp",
-		"istream": "cpp",
-		"limits": "cpp",
-		"mutex": "cpp",
-		"new": "cpp",
-		"ostream": "cpp",
-		"sstream": "cpp",
-		"stdexcept": "cpp",
-		"streambuf": "cpp",
-		"thread": "cpp",
-		"cfenv": "cpp",
-		"typeindex": "cpp",
-		"typeinfo": "cpp"
-	}
+		"cglicenses.json": "jsonc"
+	},
+	"search.exclude": {
+		"**/node_modules": true,
+		"**/bower_components": true,
+		".build/**": true,
+		"out/**": true,
+		"out-build/**": true,
+		"out-vscode/**": true,
+		"i18n/**": true,
+		"extensions/**/out/**": true,
+		"test/smoke/out/**": true,
+		"test/automation/out/**": true,
+		"test/integration/browser/out/**": true,
+		"src/vs/base/test/node/uri.test.data.txt": true,
+		"src/vs/workbench/test/browser/api/extHostDocumentData.test.perf-data.ts": true,
+		"src/vs/server": false
+	},
+	"lcov.path": [
+		"./.build/coverage/lcov.info",
+		"./.build/coverage-single/lcov.info"
+	],
+	"lcov.watch": [
+		{
+			"pattern": "**/*.test.js",
+			"command": "${workspaceFolder}/scripts/test.sh --coverage --run ${file}",
+			"windows": {
+				"command": "${workspaceFolder}\\scripts\\test.bat --coverage --run ${file}"
+			}
+		}
+	],
+	"eslint.options": {
+		"rulePaths": [
+			"./build/lib/eslint"
+		]
+	},
+	"typescript.tsdk": "node_modules/typescript/lib",
+	"npm.exclude": "**/extensions/**",
+	"npm.packageManager": "yarn",
+	"emmet.excludeLanguages": [],
+	"typescript.preferences.importModuleSpecifier": "non-relative",
+	"typescript.preferences.quoteStyle": "single",
+	"json.schemas": [
+		{
+			"fileMatch": [
+				"cgmanifest.json"
+			],
+			"url": "./.vscode/cgmanifest.schema.json"
+		},
+		{
+			"fileMatch": [
+				"cglicenses.json"
+			],
+			"url": "./.vscode/cglicenses.schema.json"
+		}
+	],
+	"git.ignoreLimitWarning": true,
+	"remote.extensionKind": {
+		"msjsdiag.debugger-for-chrome": "workspace"
+	},
+	"gulp.autoDetect": "off",
+	"files.insertFinalNewline": true,
+	"[plaintext]": {
+		"files.insertFinalNewline": false,
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "vscode.typescript-language-features",
+		"editor.formatOnSave": true,
+	},
+	"[javascript]": {
+		"editor.defaultFormatter": "vscode.typescript-language-features",
+		"editor.formatOnSave": true,
+	},
+	"typescript.tsc.autoDetect": "off",
+	"notebook.experimental.useMarkdownRenderer": true,
+  "testing.autoRun.mode": "onlyPreviouslyRun",
 }
