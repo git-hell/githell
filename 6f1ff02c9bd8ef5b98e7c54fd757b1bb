@@ -1,2 +1,2 @@
-language = "crystal"
-run = "shards install && crystal run -p main.cr"
+language = "nodejs"
+run = "node index.js"
