@@ -1,7 +1,10 @@
-*.c    diff=cpp
-*.h    diff=cpp
-*.cpp  diff=cpp
-*.hpp  diff=cpp
-*.py   diff=python
-. svn-properties=svn:keywords=tools/build/options/WITHOUT_LOADER_ZFS
-.clang-format svn-properties=svn:keywords=FreeBSD=%H
+* text=auto
+
+LICENSE.txt eol=crlf
+ThirdPartyNotices.txt eol=crlf
+
+*.bat eol=crlf
+*.cmd eol=crlf
+*.ps1 eol=lf
+*.sh eol=lf
+*.rtf -text
