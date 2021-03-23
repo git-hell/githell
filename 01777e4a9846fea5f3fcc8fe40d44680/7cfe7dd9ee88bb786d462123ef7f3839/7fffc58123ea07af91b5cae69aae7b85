@@ -1,21 +1,24 @@
 ---
 name: Feature Request
-about: Suggest improvements to F´
+about: Suggest an idea for the MRTK
 title: ''
-labels: enhancement
+labels: Feature Request
 assignees: ''
 
 ---
 
-| | |
-|:---|:---|
-|**_F´ Version_**| |
-|**_Affected Component_**|  |
----
-## Feature Description
+## Describe the problem
 
-A quick description of the requested feature.
+A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
 
-## Rationale
+## Describe the solution you'd like
 
-A rationale for why the feature should be implemented in F´.
+A clear and concise description of what you want to happen.
+
+## Describe alternatives you've considered
+
+A clear and concise description of any alternative solutions or features you've considered.
+
+## Additional context
+
+Add any other context or screenshots about the feature request here.
