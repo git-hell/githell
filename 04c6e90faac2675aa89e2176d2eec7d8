@@ -1,51 +1,64 @@
-# Fluent UI Web
+# <a href="http://lucia.js.org"><img src="https://raw.githubusercontent.com/aidenybai/lucia/master/.github/img/logo.svg" height="60" alt="Lucia Logo" aria-label="http://lucia.js.org" /></a>
 
-[![Build Status](https://img.shields.io/azure-devops/build/uifabric/fabricpublic/84/master?style=flat-square)](https://dev.azure.com/uifabric/fabricpublic/_build/latest?definitionId=84&branchName=master) ![GitHub contributors](https://img.shields.io/github/contributors/microsoft/fluentui?style=flat-square) ![GitHub top language](https://img.shields.io/github/languages/top/microsoft/fluentui?style=flat-square) [![Twitter Follow](https://img.shields.io/twitter/follow/fluentui?logo=twitter&style=flat-square)](https://twitter.com/FluentUI?ref_src=twsrc%5Etfw)
+### 3kb library for tiny web apps.
 
-> :tada: :tada: :tada: **Version 8 of `@fluentui/react` is now available on npm!** :tada: :tada: :tada:
->
-> See the [release notes](https://github.com/microsoft/fluentui/wiki/Version-8-release-notes) for more info, and please file an issue if you have any problems.
+Sometimes, all you want to do is to try and do something—No boilerplate, bundlers, or complex build processes. Lucia aims to do this, providing an augmentation layer for your logic, allowing you to build just what you need with minimal effort and time.
 
-Fluent UI web represents a collection of utilities, React components, and web components for building web applications.
+![TravisCI Build](https://badgen.net/travis/aidenybai/lucia?color=7460E1&labelColor=1D1E32&style=flat-square&label=build) ![Code Size](https://badgen.net/badgesize/brotli/https/unpkg.com/lucia?color=7460E1&labelColor=1D1E32&style=flat-square&label=size) ![NPM Version](https://img.shields.io/npm/v/lucia?color=7460E1&labelColor=1D1E32&style=flat-square) ![Code Coverage](https://img.shields.io/coveralls/github/aidenybai/lucia?color=7460E1&labelColor=1D1E32&style=flat-square)
 
-This repo is home to 3 separate projects today. Mixing components between projects is not currently supported. The goal of these projects is to dedupe functionality and enable interoperability over time. For now, choose the project that best suits your needs.
+[**→ Check out the Lucia Website**](https://lucia.js.org)
 
-The following table will help you navigate the 3 projects and understand their differences.
+## Installing Lucia
 
-<!-- prettier-ignore-start -->
-|   | React | React Northstar | Web Components |
-|---| ----- | --------------- | -------------- |
-| **Overview**    | Mature, refreshing with new concepts from react-northstar. | Newer, has concepts we're iterating on. | Web Component implementation of Fluent UI. |
-| **Used By**     | Office| Teams | Edge |
-| **Read Me**     | [README.md](/packages/react/README.md) | [README.md](/packages/fluentui/README.md) | [README.md](/packages/web-components/README.md) |
-| **Repo**        | [./packages/react](/packages/react) | [./packages/fluentui/react-northstar](/packages/fluentui/react-northstar) | [./packages/web-components](/packages/web-components) |
-| **Quick Start** | [Quick Start](https://developer.microsoft.com/en-us/fluentui#/get-started/web) | [Quick Start](https://fluentsite.z22.web.core.windows.net/quick-start) | [See README.md](https://github.com/microsoft/fluentui/tree/master/packages/web-components/README.md) |
-| **Docs**        | [aka.ms/fluentui-react](https://aka.ms/fluentui-react) | [aka.ms/fluentui-react-northstar](https://aka.ms/fluentui-react-northstar) | [aka.ms/fluentui-web-components](https://aka.ms/fluentui-web-components) |
-| **NPM**         | `@fluentui/react` | `@fluentui/react-northstar` | `@fluentui/web-components` |
-| **Version**     | [![npm version](https://img.shields.io/npm/v/@fluentui/react?style=flat-square)](https://www.npmjs.com/package/@fluentui/react) | [![npm version](https://img.shields.io/npm/v/@fluentui/react-northstar?style=flat-square)](https://www.npmjs.com/package/@fluentui/react-northstar) | [![npm version](https://img.shields.io/npm/v/@fluentui/web-components?style=flat-square)](https://www.npmjs.com/package/@fluentui/web-components) |
-| **Issues**      | [![Fluent UI React GitHub Issues](https://img.shields.io/github/issues/microsoft/fluentui/Fluent%20UI%20react?label=issues&style=flat-square)](https://github.com/microsoft/fluentui/issues?q=is%3Aissue+is%3Aopen+label%3A%22Fluent+UI+react%22) | [![Fluent UI React Northstar GitHub Issues](https://img.shields.io/github/issues/microsoft/fluentui/Fluent%20UI%20react-northstar?label=issues&style=flat-square)](https://github.com/microsoft/fluentui/issues?q=is%3Aissue+is%3Aopen+label%3A%22Fluent+UI+react-northstar%22) | [![Fluent UI Web Components GitHub Issues](https://img.shields.io/github/issues/microsoft/fluentui/web-components?label=issues&style=flat-square)](https://github.com/microsoft/fluentui/issues?q=is%3Aissue+is%3Aopen+label%3A%22web-components%22) |
-<!-- prettier-ignore-end -->
+Lucia doesn't require build tools by default, feel free to just drop a [script tag](https://lucia.js.org/docs/fundementals/installation/#cdn) in the head of your webpage.
 
-> Why are there two React versions? See the [FAQ on Fabric and Stardust](https://github.com/microsoft/fluentui/wiki/FAQ---Fabric-and-Stardust-to-Fluent-UI).
+```html
+<script src="https://unpkg.com/lucia"></script>
+```
 
-## Licenses
+It also integrates well with module bundlers like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/), we recommend [specifying the exact build](https://lucia.js.org/docs/fundementals/installation/#npm) if you import Lucia this way.
 
-All files on the Fluent UI React GitHub repository are subject to the MIT license. Please read the License file at the root of the project.
+[**→ Learn more about installing Lucia**](https://lucia.js.org/docs/fundementals/installation)
 
-Usage of the fonts and icons referenced in Fluent UI React is subject to the terms of the [assets license agreement](https://aka.ms/fluentui-assets-license).
+## Todo App Example
 
-## Changelog
+Below is an extremely simple implementation of a todo app using Lucia, utilizing zero JavaScript. Tasks can be added by submitting the form with the input. No, your eyes aren't fooling you - it's really that simple.
 
-We use [GitHub Releases](https://github.com/blog/1547-release-your-software) to manage our releases, including the changelog between every release. View a complete list of additions, fixes, and changes on the [releases](https://github.com/microsoft/fluentui/releases) page.
+```html
+<div l-state="{ value: '', todo: [] }">
+  <!-- two-way-binds `value` prop to value -->
+  <input l-model="value" />
+  <!-- captures click event, pushing current `value` to `todo` -->
+  <button @click="todo.push(value)">Create</button>
+  <!-- joins array together -->
+  <ul l-for="task in todo">
+    <li l-text="this.task"></li>
+  </ul>
+</div>
+```
 
-## Looking for Office UI Fabric React?
+[**→ View the live Codepen example**](https://codepen.io/aidenybai/pen/JjRrwjN)
 
-The **Office UI Fabric React** project has evolved to **Fluent UI**.
+## Resources & Contributing Back
 
-The `office-ui-fabric-react` repo is now this repo (`fluentui` in the Microsoft organization)! The name change should not disrupt any current Fabric usage, repo clones, pull requests or issue reporting. Links should redirect to the new location. The library formerly known as `office-ui-fabric-react` is now available as `@fluentui/react` (see above table for more information).
+Looking for the docs? Check the [Lucia website](https://lucia.js.org) out.
 
-We have a lot in store for Fluent UI - [Read our announcement here.](https://developer.microsoft.com/en-us/office/blogs/ui-fabric-is-evolving-into-fluent-ui/)
+Have a question about Lucia? Join the [Lucia Discord server](https://discord.gg/q2pSU39) and ask the community for help.
+
+Find a bug? Head over to our [issue tracker](https://github.com/aidenybai/lucia/issues) and we'll do our best to help. We love pull requests, too!
+
+We expect all Lucia contributors to abide by the terms of our [Code of Conduct](https://github.com/aidenybai/lucia/blob/master/.github/CODE_OF_CONDUCT.md).
+
+[**→ Start contributing on Github**](https://github.com/aidenybai/lucia/blob/master/.github/CONTRIBUTING.md)
+
+## Acknowledgments
+
+Lucia is [MIT-licensed](LICENSE.md) open-source software by [Aiden Bai](https://github.com/aidenybai), [et al](https://github.com/aidenybai/lucia/graphs/contributors).
+
+Lucia takes heavy inspiration from [Vue's syntax](https://github.com/vuejs/vue), and believes in the core philosophies and values behind [Alpine](https://github.com/alpinejs/alpine), [Sidewind](https://github.com/survivejs/sidewind), and [Remake](https://github.com/remake/remake-cli). Feel free to check them out if you interested in a production-ready library to use.
+
+[![HN Post](https://hackerbadge.now.sh/api?id=24887968&type=light)](https://news.ycombinator.com/item?id=24887968)
 
 ---
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+© 2020 The Lucia Authors.
