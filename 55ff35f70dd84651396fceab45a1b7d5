@@ -1,0 +1,12 @@
+Release notes for FreeBSD 14.0.
+
+This file describes new user-visible features, changes and updates relevant to
+users of binary FreeBSD releases.  Each entry should describe the change in no
+more than several sentences and should reference manual pages where an
+interested user can find more information.  Entries should wrap after 80
+columns.  Each entry should begin with one or more commit IDs on one line,
+specified as a comma separated list and/or range, followed by a colon and a
+newline.  Entries should be separated by a newline.
+
+Changes to this file should not be MFCed.
+
