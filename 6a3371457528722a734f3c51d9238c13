@@ -1,109 +1,232 @@
-# FigmaSharp Contributor's Guide
+# Instructions for Logging Issues
 
-Below is our guidance for how to report issues, propose new features, and submit contributions via Pull Requests (PRs).
+## 1. Read the FAQ
 
-## Before you start, file an issue
+Please [read the FAQ](https://github.com/Microsoft/TypeScript/wiki/FAQ) before logging new issues, even if you think you have found a bug.
 
-Please follow this simple rule to help us eliminate any unnecessary wasted effort & frustration, and ensure an efficient and effective use of everyone's time - yours, ours, and other community members':
+Issues that ask questions answered in the FAQ will be closed without elaboration.
 
-  👉 If you have a question, think you've discovered an issue, would like to propose a new feature, etc., then find/file an issue **BEFORE** starting work to fix/implement it.
+## 2. Search for Duplicates
 
-### Search existing issues first
+[Search the existing issues](https://github.com/Microsoft/TypeScript/search?type=Issues) before logging a new one.
 
-Before filing a new issue, search existing open and closed issues first: It is likely someone else has found the problem you're seeing, and someone may be working on or have already contributed a fix!
+Some search tips:
+ * *Don't* restrict your search to only open issues. An issue with a title similar to yours may have been closed as a duplicate of one with a less-findable title.
+ * Check for synonyms. For example, if your bug involves an interface, it likely also occurs with type aliases or classes.
+ * Search for the title of the issue you're about to log. This sounds obvious but 80% of the time this is sufficient to find a duplicate when one exists.
+ * Read more than the first page of results. Many bugs here use the same words so relevancy sorting is not particularly strong.
+ * If you have a crash, search for the first few topmost function names shown in the call stack.
 
-If no existing item describes your issue/feature, great - please file a new issue:
+## 3. Do you have a question?
 
-### File a new Issue
+The issue tracker is for **issues**, in other words, bugs and suggestions.
+If you have a *question*, please use [Stack Overflow](http://stackoverflow.com/questions/tagged/typescript), [Gitter](https://gitter.im/Microsoft/TypeScript), your favorite search engine, or other resources.
+Due to increased traffic, we can no longer answer questions in the issue tracker.
 
-* Don't know whether you're reporting an issue or requesting a feature? File an issue
-* Have a question that you don't see answered in docs, videos, etc.? File an issue
-* Want to know if we're planning on building a particular feature? File an issue
-* Got a great idea for a new utility or feature? File an issue/request/idea
-* Don't understand how to do something? File an issue/Community Guidance Request
-* Found an existing issue that describes yours? Great - upvote and add additional commentary / info / repro-steps / etc.
+## 4. Did you find a bug?
 
-### Complete the template
+When logging a bug, please be sure to include the following:
+ * What version of TypeScript you're using (run `tsc --v`)
+ * If at all possible, an *isolated* way to reproduce the behavior
+ * The behavior you expect to see, and the actual behavior
 
-**Please include as much information as possible in your issue**. The more information you provide, the more likely your issue/ask will be understood and implemented. Helpful information includes:
+You can try out the nightly build of TypeScript (`npm install typescript@next`) to see if the bug has already been fixed.
 
+## 5. Do you have a suggestion?
 
-* What build of Mac/Windows your device is running and OS Version 
+We also accept suggestions in the issue tracker.
+Be sure to [check the FAQ](https://github.com/Microsoft/TypeScript/wiki/FAQ) and [search](https://github.com/Microsoft/TypeScript/issues?utf8=%E2%9C%93&q=is%3Aissue) first.
 
-  👉 Tip: About this mac dialog
+In general, things we find useful when reviewing suggestions are:
+* A description of the problem you're trying to solve
+* An overview of the suggested solution
+* Examples of how the suggestion would work in various places
+  * Code examples showing e.g. "this would be an error, this wouldn't"
+  * Code examples showing the generated JavaScript (if applicable)
+* If relevant, precedent in other languages can be useful for establishing context and expected behavior
 
-  ![About dialog](https://github.com/netonjm/FigmaSharp/blob/master/icons/AboutSystem.png)
+# Instructions for Contributing Code
 
-* What version of Visual Studio for Mac are you using
+## What You'll Need
 
-  👉 Tip: About dialog in VisualStudio for Mac
-  
-  ![Visual Studio for Mac About dialog](https://github.com/netonjm/FigmaSharp/blob/master/icons/AboutVisualStudio.png)
+0. [A bug or feature you want to work on](https://github.com/microsoft/TypeScript/labels/help%20wanted)!
+1. [A GitHub account](https://github.com/join).
+2. A copy of the TypeScript code. See the next steps for instructions.
+3. [Node](https://nodejs.org), which runs JavaScript locally. Current or LTS will both work.
+4. An editor. [VS Code](https://code.visualstudio.com) is the best place to start for TypeScript.
+5. The gulp command line tool, for building and testing changes. See the next steps for how to install it.
 
-* Don't assume we're experts in setting up YOUR environment and don't assume we are experts in YOUR workflow. Teach us to help you!
-* **We LOVE detailed repro steps!** What steps do we need to take to reproduce the issue? Assume we love to read repro steps. As much detail as you can stand is probably _barely_ enough detail for us!
-* Prefer error message text where possible or screenshots of errors if text cannot be captured
-* **If you intend to implement the fix/feature yourself then say so!** If you do not indicate otherwise we will assume that the issue is our to solve, or may label the issue as `Help-Wanted`.
+## Get Started
 
-### DO NOT post "+1" comments
+1. Install node using the version you downloaded from [nodejs.org](https://nodejs.org).
+2. Open a terminal.
+3. Make a fork&mdash;your own copy&mdash;of TypeScript on your GitHub account, then make a clone&mdash;a local copy&mdash;on your computer. ([Here are some step-by-step instructions](https://github.com/anitab-org/mentorship-android/wiki/Fork%2C-Clone-%26-Remote)). Add `--depth=1` to the end of the `git clone` command to save time.
+4. Install the gulp command line tool: `npm install -g gulp-cli`
+5. Change to the TypeScript folder you made: `cd TypeScript`
+6. Install dependencies: `npm ci`
+7. Make sure everything builds and tests pass: `gulp runtests-parallel`
+8. Open the Typescript folder in your editor.
+9. Follow the directions below to add and debug a test.
 
-> ⚠ DO NOT post "+1", "me too", or similar comments - they just add noise to an issue.
+## Tips
 
-If you don't have any additional info/context to add but would like to indicate that you're affected by the issue, upvote the original issue by clicking its [+😊] button and hitting 👍 (+1) icon. This way we can actually measure how impactful an issue is.
+### Using a development container
 
----
+This repository includes a [development container](https://code.visualstudio.com/docs/remote/containers) that you can use to quickly create an isolated development environment with all the tools you need to start working on TypeScript. To get started with a dev container and VS Code, either:
 
-## Contributing fixes / features
+- Clone the TypeScript repository locally and use the `Open Folder in Container` command.
+- Use the `Clone Repository in Container Volume` command to clone the TypeScript repository into a new container.
 
-For those able & willing to help fix issues and/or implement features ...
+### Faster clones
 
-### To Spec or not to Spec
+The TypeScript repository is relatively large. To save some time, you might want to clone it without the repo's full history using `git clone --depth=1`.
 
-Some issues/features may be quick and simple to describe and understand. For such scenarios, once a team member has agreed with your approach, skip ahead to the section headed "Fork, Branch, and Create your PR", below.
+### Using local builds
 
+Run `gulp` to build a version of the compiler/language service that reflects changes you've made. You can then run `node <repo-root>/built/local/tsc.js` in place of `tsc` in your project. For example, to run `tsc --watch` from within the root of the repository on a file called `test.ts`, you can run `node ./built/local/tsc.js --watch test.ts`.
 
-Small issues that do not require a spec will be labelled [Issue-Bug](https://github.com/netonjm/FigmaSharp/labels/Issue-Bug) or [Issue-Task](https://github.com/netonjm/FigmaSharp/labels/Issue-Task).
+## Contributing bug fixes
 
-However, some issues/features will require careful thought & formal design before implementation. For these scenarios, we'll request that a spec is written and the associated issue will be labeled [Issue-Feature](https://github.com/netonjm/FigmaSharp/labels/Issue-Feature).
+TypeScript is currently accepting contributions in the form of bug fixes. A bug must have an issue tracking it in the issue tracker that has been approved (labelled ["help wanted"](https://github.com/Microsoft/TypeScript/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22) or in the "Backlog milestone") by the TypeScript team. Your pull request should include a link to the bug that you are fixing. If you've submitted a PR for a bug, please post a comment in the bug to avoid duplication of effort.
 
-Specs help collaborators discuss different approaches to solve a problem, describe how the feature will behave, how the feature will impact the user, what happens if something goes wrong, etc. Driving towards agreement in a spec, before any code is written, often results in simpler code, and less wasted effort in the long run.
+## Contributing features
 
-Specs will be managed in a very similar manner as code contributions so please follow the "Fork, Branch and Create your PR" below.
+Features (things that add new or improved functionality to TypeScript) may be accepted, but will need to first be approved (labelled ["help wanted"](https://github.com/Microsoft/TypeScript/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22) or in the "Backlog" milestone) by a TypeScript project maintainer in the suggestion issue. Features with language design impact, or that are adequately satisfied with external tools, will not be accepted.
 
-### Writing / Contributing-to a Spec
+## Legal
 
-To write/contribute to a spec: fork, branch and commit via PRs, as you would with any code changes.
+You will need to complete a Contributor License Agreement (CLA). Briefly, this agreement testifies that you are granting us permission to use the submitted change according to the terms of the project's license, and that the work being submitted is under appropriate copyright. Upon submitting a pull request, you will automatically be given instructions on how to sign the CLA.
 
-### Help Wanted
+## Housekeeping
 
-Once the team have approved an issue/spec, development can proceed. If no developers are immediately available, the spec can be parked ready for a developer to get started. Parked specs' issues will be labeled "Help Wanted". To find a list of development opportunities waiting for developer involvement, visit the Issues and filter on [the Help-Wanted label](https://github.com/netonjm/FigmaSharp/labels/Help-Wanted).
+Your pull request should:
 
----
+* Include a description of what your change intends to do
+* Be based on reasonably recent commit in the **master** branch
+* Include adequate tests
+    * At least one test should fail in the absence of your non-test code changes. If your PR does not match this criteria, please specify why
+    * Tests should include reasonable permutations of the target fix/change
+    * Include baseline changes with your change
+* Follow the code conventions described in [Coding guidelines](https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines)
+* To avoid line ending issues, set `autocrlf = input` and `whitespace = cr-at-eol` in your git configuration
 
-## Development
+## Contributing `lib.d.ts` fixes
 
-### Fork, Clone, Branch and Create your PR
+There are three relevant locations to be aware of when it comes to TypeScript's library declaration files:
 
-Once you've discussed your proposed feature/fix/etc. with a team member, and you've agreed an approach or a spec has been written and approved, it's time to start development:
+* `src/lib`: the location of the sources themselves.
+* `lib`: the location of the last-known-good (LKG) versions of the files which are updated periodically.
+* `built/local`: the build output location, including where `src/lib` files will be copied to.
 
-1. Fork the repo if you haven't already
-1. Clone your fork locally
-1. Create & push a feature branch
-1. Create a [Draft Pull Request (PR)](https://github.blog/2019-02-14-introducing-draft-pull-requests/)
-1. Work on your changes
+Any changes should be made to [src/lib](https://github.com/Microsoft/TypeScript/tree/master/src/lib). **Most** of these files can be updated by hand, with the exception of any generated files (see below).
 
-**Before send the PR it's important in spend a little time thinking about a beautiful title and a detailed description about the new functionality you want to add or problem you want to fix to facilitate the work of the people who are reviewing it.**
+Library files in `built/local/` are updated automatically by running the standard build task:
 
-### Code Review
+```sh
+gulp
+```
 
-When you'd like the team to take a look, (even if the work is not yet fully-complete), mark the PR as 'Ready For Review' so that the team can review your work and provide comments, suggestions, and request changes. It may take several cycles, but the end result will be solid, testable, conformant code that is safe for us to merge.
+The files in `lib/` are used to bootstrap compilation and usually **should not** be updated unless publishing a new version or updating the LKG.
 
-### Merge
+### Modifying generated library files
 
-Once your code has been reviewed and approved by the requisite number of team members, it will be merged into the master branch. Once merged, your PR will be automatically closed.
+The files `src/lib/dom.generated.d.ts` and `src/lib/webworker.generated.d.ts` both represent type declarations for the DOM and are auto-generated. To make any modifications to them, you will have to direct changes to https://github.com/Microsoft/TSJS-lib-generator
 
----
+## Running the Tests
 
-## Thank you
+To run all tests, invoke the `runtests-parallel` target using gulp:
 
-Thank you in advance for your contribution! 
+```Shell
+gulp runtests-parallel
+```
+
+This will run all tests; to run only a specific subset of tests, use:
+
+```Shell
+gulp runtests --tests=<regex>
+```
+
+e.g. to run all compiler baseline tests:
+
+```Shell
+gulp runtests --tests=compiler
+```
+
+or to run a specific test: `tests\cases\compiler\2dArrays.ts`
+
+```Shell
+gulp runtests --tests=2dArrays
+```
+
+## Debugging the tests
+
+You can debug with VS Code or Node instead with `gulp runtests -i`:
+
+```Shell
+gulp runtests --tests=2dArrays -i
+```
+
+You can also use the [provided VS Code launch configuration](./.vscode/launch.template.json) to launch a debug session for an open test file. Rename the file 'launch.json', open the test file of interest, and launch the debugger from the debug panel (or press F5).
+
+## Adding a Test
+
+To add a new test case, add a `.ts` file in `tests\cases\compiler` with code that shows the bug is now fixed, or your new feature now works.
+
+These files support metadata tags in the format  `// @metaDataName: value`.
+The supported names and values are the same as those supported in the compiler itself, with the addition of the `fileName` flag.
+`fileName` tags delimit sections of a file to be used as separate compilation units.
+They are useful for testing modules.
+See below for examples.
+
+**Note** that if you have a test corresponding to a specific area of spec compliance, you can put it in the appropriate subfolder of `tests\cases\conformance`.
+**Note** that test filenames must be distinct from all other test names, so you may have to work a bit to find a unique name if it's something common.
+
+### Tests for multiple files
+
+When you need to mimic having multiple files in a single test to test features such as "import", use the `filename` tag:
+
+```ts
+// @filename: file1.ts
+export function f() {
+}
+
+// @filename: file2.ts
+import { f as g } from "file1";
+
+var x = g();
+```
+
+## Managing the baselines
+
+Most tests generate "baselines" to find differences in output.
+As an example, compiler tests usually emit one file each for
+
+- the `.js` and `.d.ts` output (all in the same `.js` output file),
+- the errors produced by the compiler (in an `.errors.txt` file),
+- the types of each expression (in a `.types` file),
+- the symbols for each identifier (in a `.symbols` file), and
+- the source map outputs for files if a test opts into them (in a `.js.map` file).
+
+When a change in the baselines is detected, the test will fail. To inspect changes vs the expected baselines, use
+
+```Shell
+git diff --diff-filter=AM --no-index ./tests/baselines/reference ./tests/baselines/local
+```
+
+Alternatively, you can set the `DIFF` environment variable and run `gulp diff`, or manually run your favorite folder diffing tool between `tests/baselines/reference` and `tests/baselines/local`. Our team largely uses Beyond Compare and WinMerge.
+
+After verifying that the changes in the baselines are correct, run
+
+```Shell
+gulp baseline-accept
+```
+
+This will change the files in `tests\baselines\reference`, which should be included as part of your commit.
+Be sure to validate the changes carefully -- apparently unrelated changes to baselines can be clues about something you didn't think of.
+
+## Localization
+
+All strings the user may see are stored in [`diagnosticMessages.json`](./src/compiler/diagnosticMessages.json).
+If you make changes to it, run `gulp generate-diagnostics` to push them to the `Diagnostic` interface in `diagnosticInformationMap.generated.ts`.
+
+See [coding guidelines on diagnostic messages](https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines#diagnostic-messages).
