@@ -1,114 +1,157 @@
-# =============== #
-# Unity generated #
-# =============== #
-[Tt]emp/
-[Oo]bj/
-[Bb]in/
-[Bb]uilds/
-[Bb]uild/
-[Ll]ibrary/
-[Aa]pp/
-UWP/
-WindowsStoreApp/
-WSA/
-UnityGenerated/
-UnityPackageManager/
-.out/
-project.json
-project.lock.json
-*.package
-**/.DS_Store
-Assets/XR/
-Assets/XR.meta
-Assets/Oculus/
-Assets/Oculus.meta
-# ============ #
-# Certificates #
-# ============ #
-*.cert
-*.privkey
-*.pfx
-*.pfx.meta
+# FluentUI code
+*.source.json
+*.info.json
+*.tsbuildinfo
+packages/fluentui/*/componentInfo
+packages/fluentui/docs/src/componentInfo
+packages/fluentui/docs/src/componentMenu.json
+packages/fluentui/docs/src/behaviorMenu.json
+packages/fluentui/docs/src/bundleStats.json
+packages/fluentui/docs/src/currentBundleStats.json
+packages/fluentui/docs/src/exampleMenus
+packages/fluentui/docs/src/exampleSources
+packages/fluentui/docs/dist/
+packages/fluentui/ability-attributes/src/schema.ts
+packages/fluentui/e2e/cypress/fixtures/example.json
+stats/
 
-# ===================================== #
-# Visual Studio / MonoDevelop generated #
-# ===================================== #
-.vs/
-ExportedObj/
-obj/
-*.svd
-*.userprefs
-/*.csproj
-*.csproj
-*.pidb
-*.suo
-/*.sln
-*.sln
-*.user
-*.unityproj
-*.ipch
-*.opensdf
-*.sdf
-*.tlog
-*.log
-*.idb
-*.opendb
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
 
-# ============================ #
-# Visual Studio Code Generated #
-# ============================ #
-.vscode/
+# Folder config file
+Desktop.ini
 
-# ===================== #
-# Project Specific List #
-# ===================== #
-artifacts/
-Assets/ThirdParty*
-Assets/TextMesh Pro*
---Version/
-Assets/StreamingAssets/GltfModels/
-Assets/StreamingAssets/GltfModels.meta
-Assets/StreamingAssets.meta
-Assets/MixedRealityToolkit.Generated*
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
 
-/mrtk_log_mostRecentET.csv
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
 
-# =============== #
-# DocFX Generated #
-# =============== #
-doc/
+# =========================
+# Operating System Files
+# =========================
 
-# This is only needed because docfx chooses the first alphabetically occurring
-# .cs file's folder to create an obj/xdoc cache folder inside.
-# When https://github.com/dotnet/docfx/issues/1156 is addressed, it should be
-# possible to remove the rule on the following line and update our docfx
-# configuration to place its cache in a deterministic folder.
-[Oo]bj.meta
+# OSX
+# =========================
 
-# ============================= #
-# NuGet Build Process Generated #
-# ============================= #
-/NuGet/*
-!/NuGet/BuildSource.proj
-/MRTKBuild/
-/MSBuild/
-/PackagesCopy/
-!/scripts/Packaging/NuGetRestoreProject.csproj
-
-# ========================= #
-# MSBuildForUnity generated #
-# ========================= #
-MSBuildForUnity.Common.props
-/*.msb4u.csproj.meta
-*.msb4u.csproj.meta
-/*.msb4u.sln.meta
-*.msb4u.sln.meta
-Dependencies*
-Nuget.config*
-*.obj
-*.bin
-
-# =========== #
-# Other files #
-# =========== #
 .DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Generated files
+*.scss.ts
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+.bin
+dist.stats.json
+bower_components
+node_modules
+temp
+lib
+lib-amd
+lib-commonjs
+lib-es2015
+coverage
+dist
+dist-storybook
+screenshots
+.cache
+
+*.tar.gz
+
+# Drop Folder
+drop/
+
+# Events Generated Code
+*.event.ts
+
+# Resx Generated Code
+*.resx.ts
+
+# Visual Studio Temp Project
+.vs/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+.idea
+/.settings/
+
+# NPM Install Temp
+__temp/
+
+# Deploy symlinks
+_Deploy
+
+# Commit meta data
+commit.txt
+
+# Webpart typings
+typings/webpart-framework
+typings/webparts
+
+# Configs that contain sensitive information
+TDSDeployConfig.json
+
+# FTP config
+ftpconfig.json
+
+# Package output folder
+package
+
+# Logs
+*.log
+npminstall-log.txt
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency change files generated from npmx aka rush
+package-deps.json
+
+common/temp
+
+# Gulp cache
+gulp-cache
+
+# NPM debug logs
+npm-debug.log.*
+shrinkwrap.yaml
+package-lock.json
+
+*.swp
+
+# Temporary files
+*~
+*swp
+*swo
+
+# Website
+/apps/public-docsite/flights/
+
+# Rush files - since we are moving away from it
+/common
+rush.json
+
+# package manifest
+/package-manifest.json
+
+# Copied monaco-editor files
+/packages/monaco-editor/esm
+
+.eslintcache
+
+# Rollup cache
+.rollupcache
+
+# tsdoc
+tsdoc-metadata.json
