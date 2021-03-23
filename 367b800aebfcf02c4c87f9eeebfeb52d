@@ -1,0 +1,35 @@
+# NPM/Yarn
+node_modules/
+package-lock.json
+yarn.lock
+yarn-error.log
+
+# Testing
+test*.html
+coverage
+
+# Build Config
+tsconfig.json
+rollup.config.js
+rollup-dev.config.js
+.gitignore
+.babelrc
+.travis.yml
+
+# Raw source
+src/
+
+# Linting
+.prettierrc
+.prettierignore
+
+# Editor Config
+.vscode/
+.idea/
+settings.json
+.DS_Store
+
+# Misc
+.github/
+docs/
+scratch.md
