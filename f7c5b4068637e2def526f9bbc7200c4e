@@ -1,2 +1,4 @@
-coverage/
-docker-compose.yml
+.git
+**.mdxml
+**/docs
+**build
