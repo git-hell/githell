@@ -1,0 +1,61 @@
+{
+  "name": "react_on_rails",
+  "description": "example of server rendering",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shakacode/react_on_rails.git"
+  },
+  "private": true,
+  "dependencies": {
+    "@babel/preset-react": "^7.10.4",
+    "@rails/webpacker": "^5.2.1",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "core-js": "3",
+    "create-react-class": "^15.6.3",
+    "eslint-plugin-prettier": "^3.1.0",
+    "expose-loader": "^1.0.3",
+    "history": "^4.6.3",
+    "imports-loader": "^1.2.0",
+    "jquery": "^3.5.1",
+    "jquery-ujs": "^1.2.2",
+    "loader-utils": "^2.0.0",
+    "lodash": "^4.17.4",
+    "node-libs-browser": "^2.2.1",
+    "nps": "^5.10.0",
+    "null-loader": "^4.0.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-helmet": "^6.0.0-beta.2",
+    "react-on-rails": "file:.yalc/react-on-rails",
+    "react-proptypes": "^1.0.0",
+    "react-redux": "^7.2.2",
+    "react-router-dom": "^5.2.0",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.2.0",
+    "resolve-url-loader": "^3.1.1",
+    "sass-resources-loader": "^2.1.0",
+    "url-loader": "^4.0.0",
+    "webpack-merge": "^5.1.4"
+  },
+  "devDependencies": {
+    "@pmmmwh/react-refresh-webpack-plugin": "0.4.2",
+    "react-refresh": "^0.8.1",
+    "webpack-dev-server": "^3.2.1"
+  },
+  "browser": {
+    "fs": false
+  },
+  "scripts": {
+    "yalc-postinstall": "yalc link react-on-rails",
+    "lint": "cd ../.. && yarn run lint",
+    "format": "cd ../.. && yarn start format",
+    "test": "yarn run build:test && yarn run lint && rspec",
+    "build:test": "rm -rf public/webpack/test && RAILS_ENV=test NODE_ENV=test bin/webpack",
+    "build:dev": "rm -rf public/webpack/develoment && RAILS_ENV=development NODE_ENV=development bin/webpack --watch",
+    "build:dev:server": "rm -rf public/webpack/develoment && RAILS_ENV=development NODE_ENV=development bin/webpack --watch",
+    "build:dev:watch": "RAILS_ENV=development NODE_ENV=development bin/webpack --watch",
+    "build:clean": "rm -rf public/webpack || true"
+  },
+  "version": "0.0.0"
+}
