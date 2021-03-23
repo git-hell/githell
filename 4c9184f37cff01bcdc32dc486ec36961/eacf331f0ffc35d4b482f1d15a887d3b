@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>the diary</title>
+</head>
+<body>
+    <h1>the diary</h1>
+    <h3>a collaborative, open to the public writing project</h3>
+    <p>
+        users can submit their own diary entries, ideally in-character for the person the diary seems to describe. every 24 hours, a new entry
+        will be chosen at random and added to the list. new entries can build off of the existing ones to ideally over time create a public
+        profile of a hypothetical writer. if you are interested in contributing regularly, check out <a href="https://discord.gg/NcrAgHPmWm">the discord</a>.
+    </p>
+    <p>
+        if that description was confusing, think of it like this:
+        there is a person, in some universe, writing a diary. we don't know them or anything aobut them or where they are.
+        they write entries and post them here, and we read them and learn about them.
+        the entries are by them, from their perspective, about them and their world.
+        the catch is this: they don't physically write the entries. we do. we write as them, based on what we know about them, and that teaches us more about them.
+    </p>
+    <p>
+        this means, and i cannot stress this enough,
+        NO JOKE ENTRIES. NO SPAM. it is not funny,
+        and you're making the project less fun and less interesting for everyone. any spam/joke entries will be deleted. you can joke and spam anywhere you like,
+        on your own time: the diary is a specific place with a specific purpose.
+    </p>
+    <a href="/submit">submit an entry</a>
+    <br/>
+    <a href="/submissions">view submissions</a>
+    <hr/>
+    <ul id="entries">
+    </ul>
+    <script src="/index.js"></script>
+<style>
+a { color: blue; }
+</style>
+</body>
+</html>
