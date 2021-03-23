@@ -4,8 +4,10 @@ about: Suggest an idea for this project
 
 ---
 
-<!-- ⚠️⚠️ Do Not Delete This! feature_request_template ⚠️⚠️ -->
-<!-- Please read our Rules of Conduct: https://opensource.microsoft.com/codeofconduct/ -->
-<!-- Please search existing issues to avoid creating duplicates. -->
+<!--  🚨 Please only include feature requests related to Dev Container Definitions here. 🚨 Other locations:
+        VS Code Remote Development: http://github.com/Microsoft/vscode-remote-release 
+        VS Code OSS: http://github.com/Microsoft/vscode
+        GitHub Codespaces: https://github.community/c/codespaces-beta
+-->
 
-<!-- Describe the feature you'd like. -->
+<!-- Describe the feature request -->
