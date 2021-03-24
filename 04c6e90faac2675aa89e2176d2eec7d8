@@ -1,63 +1,46 @@
-# how2exploit_binary: get your hack on.
+# ![json.lua](https://cloud.githubusercontent.com/assets/3920290/9281532/99e5e0cc-42bd-11e5-8fce-eaff2f7fc681.png)
+A lightweight JSON library for Lua
 
-### A note from the creator
 
-Greetings, fellow hacker, hobbyist, or computer enthusiast. If you've been
-looking for a place to start learning binary exploitation, then you're in luck.
-This tutorial is intended for anyone with experience in coding, ideally C or
-C++, but I only knew Python when I started.
+## Features
+* Implemented in pure Lua: works with 5.1, 5.2, 5.3 and JIT
+* Fast: generally outperforms other pure Lua JSON implementations
+  ([benchmark scripts](bench/))
+* Tiny: around 280sloc, 9kb
+* Proper error messages, *eg:* `expected '}' or ',' at line 203 col 30`
 
-Written by someone who is just barely better than "incompetent," I'll be
-explaining how I learned my skills. These tutorials will be a bit long winded,
-but hopefully they will be informative and entertaining. Please feel free to
-contact me about any clarifications that should be included in the tutorials.
 
-**This is intended for Linux. It's free if you don't already have it. Don't
-want to dual boot? Get a VM.**
+## Usage
+The [json.lua](json.lua?raw=1) file should be dropped into an existing project
+and required by it:
+```lua
+json = require "json"
+```
+The library provides the following functions:
 
--Best of luck
+#### json.encode(value)
+Returns a string representing `value` encoded in JSON.
+```lua
+json.encode({ 1, 2, 3, { x = 10 } }) -- Returns '[1,2,3,{"x":10}]'
+```
 
-[Bretley](https://github.com/Bretley)
+#### json.decode(str)
+Returns a value representing the decoded JSON string.
+```lua
+json.decode('[1,2,3,{"x":10}]') -- Returns { 1, 2, 3, { x = 10 } }
+```
 
-## The Grand Glossary of Terms
+## Notes
+* Trying to encode values which are unrepresentable in JSON will never result
+  in type conversion or other magic: sparse arrays, tables with mixed key types
+  or invalid numbers (NaN, -inf, inf) will raise an error
+* `null` values contained within an array or object are converted to `nil` and
+  are therefore lost upon decoding
+* *Pretty* encoding is not supported, `json.encode()` only encodes to a compact
+  format
 
-I've compiled this list of as many useful things as I could find. It contains
-all sorts of goodies that I wish I had found or had explained to me earlier. If
-you have a question, it can probably be answered in here. Otherwise, get your
-Google-Fu on
 
-* [The Glossary](terms)
+## License
+This library is free software; you can redistribute it and/or modify it under
+the terms of the MIT license. See [LICENSE](LICENSE) for details.
 
-## External Tools.
-
-I strongly recommend you install and use the following tools to make your life
-a bit easier:
-
-* [longld/peda](https://github.com/longld/peda/): I use this tool in all of
-  these tutorials. It provides a wide range of useful functions and makes `gdb`
-  far more user friendly. Just follow the installation instructions in the repo.
-
-* [Gallopsled/pwntools](https://github.com/Gallopsled/pwntools): pwntools is an
-  exploit framework built in my favorite language, python. It has a whole slew
-  of useful functions and chicanery that makes the exploit process more fun and
-  less painful. Install with: `$ sudo pip install pwntools`
-
-## Introductory Tutorials:
-
-* [Setup Script](./install.sh)
-* [Intro 1: What is a binary, really?](intro-1)
-    * [Companion Video](https://youtu.be/6cNbKnxbAWw)
-    * [Areece x86 Calling Conventions](http://codearcana.com/posts/2013/05/21/a-brief-introduction-to-x86-calling-conventions.html)
-* [Intro 2: Screwing around with the stack](intro-2)
-
-## Buffer Overflows and ROP:
-
-* [1:   The power of SEGFAULT](exercise-1)
-* [2:   Build your own `system()`](exercise-2)
-* [3:   Follow the Yellow Brick Functions](exercise-3)
-* [3.5: Learning pwntools](exercise-3.5)
-* [4:   Pay a Visit to Your Local Library](exercise-4)
-
-## Heap Exploitation:
-
-* More to come here soon ;)
