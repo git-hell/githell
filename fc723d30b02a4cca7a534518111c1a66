@@ -1,2 +1,4 @@
-# API files should be checked in with Unix-style newlines
-*.api.md text=auto
+*.c   diff=cpp
+*.h   diff=cpp
+*.dtsi diff=dts
+*.dts  diff=dts
