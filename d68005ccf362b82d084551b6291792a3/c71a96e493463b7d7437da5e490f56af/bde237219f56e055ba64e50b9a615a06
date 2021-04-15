@@ -1,0 +1,57 @@
+/* amd64.h - AMD64 support                              ncc, the new c compiler
+
+Copyright (c) 2021 Charles E. Youse (charles@gnuless.org). All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
+
+#ifndef AMD64_AMD64_H
+#define AMD64_AMD64_H
+
+#include "../cc1.h"
+#include "../block.h"
+
+#define AMD64_STACK_ALIGN   8
+
+/* we only use XMM regs as floats or doubles.
+   when we save them we only save 8 bytes */
+
+#define AMD64_XMM_BYTES     8
+
+struct symbol;
+
+extern int amd64_nr_iargs;
+extern int amd64_nr_fargs;
+extern int amd64_arg_addr;
+extern int amd64_local_addr;
+
+extern void amd64_func_new(void);
+extern void amd64_symbol_storage(struct symbol *);
+extern void amd64_formal_declare(struct symbol *);
+extern void amd64_symbol_reg(struct symbol *);
+extern void amd64_output_reg(pseudo_reg);
+extern void amd64_insn_branch(condition_code, struct block *);
+extern void amd64_logues(void);
+extern void amd64_opt(void);
+
+#endif /* AMD64_AMD64_H */
+
+/* vi: set ts=4 expandtab: */
