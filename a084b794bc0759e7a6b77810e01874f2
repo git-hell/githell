@@ -1,19 +1,6 @@
-/doc/
-/libs/
-/lib/
-/bin/
-/.shards/
-.idea
-.vscode
-jennifer.code-workspace
-/spec/fixtures/*.db
-sam.cr
-
-# Libraries don't need dependency lock
-# Dependencies will be locked in application that uses them
-/shard.lock
-/scripts/structure.sql
-/scripts/test.cr
-/scripts/test.db
-/scripts/database.yml
-/scripts/models
+*.o
+cc
+cpp/cpp
+cc1/cc1
+libc/libc.a
+*.diff
