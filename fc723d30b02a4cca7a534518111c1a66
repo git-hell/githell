@@ -1,4 +1,2 @@
-*.c   diff=cpp
-*.h   diff=cpp
-*.dtsi diff=dts
-*.dts  diff=dts
+src/thirdparty/** linguist-vendored
+src/*.h linguist-language=C++
