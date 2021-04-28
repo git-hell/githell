@@ -1,29 +1,14 @@
-# nertivia-client-ts
-Check out nertivia beta at https://beta.nertivia.net
+# novata
 
-![alt text](https://raw.githubusercontent.com/supertiger1234/nertivia-client-ts/master/preview/Nertivia%20Client.jpg)
-![alt text](https://raw.githubusercontent.com/supertiger1234/nertivia-client-ts/master/preview/Nertivia%20Servers%20List.jpg)
-![alt text](https://raw.githubusercontent.com/supertiger1234/nertivia-client-ts/master/preview/Nertivia%20Dashboard.jpg)
+a site for any kind of interesting musings thoughts or html
 
-## Project setup
-```
-npm install
-```
+have a thought? jot it down and pr that shit
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+e theta novata
 
-### Compiles and minifies for production
-```
-npm run build
-```
+eyy lmao how u doin
 
-### Lints and fixes files
-```
-npm run lint
-```
+# code of conduct
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+do not modify existing pages, only add content
+index.html may be modified, but only to add links
