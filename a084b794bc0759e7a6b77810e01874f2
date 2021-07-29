@@ -1,40 +1,15 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+.gitattributes
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
+*.so
+*.o
+*.a
 
-# testing
-/coverage
+manual/manual.html
 
-# next.js
-/.next/
-/out/
-MOTHERTRUCKER THAT HURT LIKE A BUTTCHEEK ON A STICK
+testes/time.txt
+testes/time-debug.txt
 
-# production
-/build
+testes/libs/all
 
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# We don't do that here
-original_jokes
-
-# local env files
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# vercel
-.vercel
-
-OOOOOOOOOOOOH YEAH BABY
+temp
+lua
