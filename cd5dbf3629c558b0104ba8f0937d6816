@@ -1,155 +1,205 @@
-##############################################################################
-#
-#					              ncc, the new c compiler
-#
-#                   Copyright (c) 2021 Charles E. Youse (charles@gnuless.org).
-#                      All rights reserved. See LICENSE file for more details.
-#
-##############################################################################
+# Developer's makefile for building Lua
+# see luaconf.h for further customization
 
-# to build, set NCC_HOME to an (otherwise-unoccupied/nonexistent) directory
-# where ncc should live, add $NCC_HOME/bin to your PATH, and then:
-#
-#		make clean; make; make install; make lib
-#
-# then invoke ncc to compile files, in the usual Unix tradition, e.g.,
-#
-#		ncc test.c 	(compiles, assembles, links to a.out)
-#
-# for the moment we're reliant on GNU ar/as/ld, expected to be in /usr/bin.
+# == CHANGE THE SETTINGS BELOW TO SUIT YOUR ENVIRONMENT =======================
 
-NCC_HOME=/home/charles/ncc-bin
+# Warnings valid for both C and C++
+CWARNSCPP= \
+	-Wfatal-errors \
+	-Wextra \
+	-Wshadow \
+	-Wsign-compare \
+	-Wundef \
+	-Wwrite-strings \
+	-Wredundant-decls \
+	-Wdisabled-optimization \
+	-Wdouble-promotion \
+        # the next warnings might be useful sometimes,
+	# but usually they generate too much noise
+	# -Werror \
+	# -pedantic   # warns if we use jump tables \
+	# -Wconversion  \
+	# -Wsign-conversion \
+	# -Wstrict-overflow=2 \
+	# -Wformat=2 \
+	# -Wcast-qual \
 
-CC=cc
-CFLAGS=-DROOT=\"$(NCC_HOME)\"
 
-all:	cc cpp/cpp cc1/cc1
+# Warnings for gcc, not valid for clang
+CWARNGCC= \
+	-Wlogical-op \
+	-Wno-aggressive-loop-optimizations \
+
+
+# The next warnings are neither valid nor needed for C++
+CWARNSC= -Wdeclaration-after-statement \
+	-Wmissing-prototypes \
+	-Wnested-externs \
+	-Wstrict-prototypes \
+	-Wc++-compat \
+	-Wold-style-definition \
+
+
+CWARNS= $(CWARNSCPP) $(CWARNSC) $(CWARNGCC)
+
+# Some useful compiler options for internal tests:
+# -DLUAI_ASSERT turns on all assertions inside Lua.
+# -DHARDSTACKTESTS forces a reallocation of the stack at every point where
+# the stack can be reallocated.
+# -DHARDMEMTESTS forces a full collection at all points where the collector
+# can run.
+# -DEMERGENCYGCTESTS forces an emergency collection at every single allocation.
+# -DEXTERNMEMCHECK removes internal consistency checking of blocks being
+# deallocated (useful when an external tool like valgrind does the check).
+# -DMAXINDEXRK=k limits range of constants in RK instruction operands.
+# -DLUA_COMPAT_5_3
+
+# -pg -malign-double
+# -DLUA_USE_CTYPE -DLUA_USE_APICHECK
+# ('-ftrapv' for runtime checks of integer overflows)
+# -fsanitize=undefined -ftrapv -fno-inline
+# TESTS= -DLUA_USER_H='"ltests.h"' -O0 -g
+
+
+LOCAL = $(TESTS) $(CWARNS)
+
+
+# enable Linux goodies
+MYCFLAGS= $(LOCAL) -std=c99 -DLUA_USE_LINUX -DLUA_USE_READLINE
+MYLDFLAGS= $(LOCAL) -Wl,-E
+MYLIBS= -ldl -lreadline
+
+
+CC= gcc
+CFLAGS= -Wall -O2 $(MYCFLAGS) -fno-stack-protector -fno-common -march=native
+AR= ar rc
+RANLIB= ranlib
+RM= rm -f
+
+
+
+# == END OF USER SETTINGS. NO NEED TO CHANGE ANYTHING BELOW THIS LINE =========
+
+
+LIBS = -lm
+
+CORE_T=	liblua.a
+CORE_O=	lapi.o lcode.o lctype.o ldebug.o ldo.o ldump.o lfunc.o lgc.o llex.o \
+	lmem.o lobject.o lopcodes.o lparser.o lstate.o lstring.o ltable.o \
+	ltm.o lundump.o lvm.o lzio.o ltests.o
+AUX_O=	lauxlib.o
+LIB_O=	lbaselib.o ldblib.o liolib.o lmathlib.o loslib.o ltablib.o lstrlib.o \
+	lutf8lib.o loadlib.o lcorolib.o linit.o
+
+LUA_T=	lua
+LUA_O=	lua.o
+
+
+ALL_T= $(CORE_T) $(LUA_T)
+ALL_O= $(CORE_O) $(LUA_O) $(AUX_O) $(LIB_O)
+ALL_A= $(CORE_T)
+
+all:	$(ALL_T)
+	touch all
+
+o:	$(ALL_O)
+
+a:	$(ALL_A)
+
+$(CORE_T): $(CORE_O) $(AUX_O) $(LIB_O)
+	$(AR) $@ $?
+	$(RANLIB) $@
+
+$(LUA_T): $(LUA_O) $(CORE_T)
+	$(CC) -o $@ $(MYLDFLAGS) $(LUA_O) $(CORE_T) $(LIBS) $(MYLIBS) $(DL)
+
 
 clean:
-	rm -f cc
-	rm -f common/*.o
-	rm -f cpp/*.o cpp/cpp
-	rm -f cc1/*.o cc1/amd64/*.o cc1/cc1
-	rm -f *.diff
+	$(RM) $(ALL_T) $(ALL_O)
 
-install:
-	rm -rf $(NCC_HOME)
-	mkdir -p $(NCC_HOME)
-	mkdir -p $(NCC_HOME)/bin
-	mkdir -p $(NCC_HOME)/lib
+depend:
+	@$(CC) $(CFLAGS) -MM *.c
 
-	cp cc $(NCC_HOME)/bin/ncc
-	cp cpp/cpp $(NCC_HOME)/bin
-	cp cc1/cc1 $(NCC_HOME)/lib/cc1
+echo:
+	@echo "CC = $(CC)"
+	@echo "CFLAGS = $(CFLAGS)"
+	@echo "AR = $(AR)"
+	@echo "RANLIB = $(RANLIB)"
+	@echo "RM = $(RM)"
+	@echo "MYCFLAGS = $(MYCFLAGS)"
+	@echo "MYLDFLAGS = $(MYLDFLAGS)"
+	@echo "MYLIBS = $(MYLIBS)"
+	@echo "DL = $(DL)"
 
-lib:
-	(cd libc; make NCC_HOME=$(NCC_HOME) clean)
-	(cd libc; make NCC_HOME=$(NCC_HOME) all)
-	(cd libc; make NCC_HOME=$(NCC_HOME) install)
+$(ALL_O): makefile ltests.h
 
-cc:	cc.c
-	$(CC) -DROOT=\"$(NCC_HOME)\" \
-		-DAS=\"/usr/bin/as\" \
-		-DLD=\"/usr/bin/ld\" \
-		$(CFLAGS) -o cc cc.c
+# DO NOT EDIT
+# automatically made with 'gcc -MM l*.c'
 
-COMMON_HDRS=	common/escape.h common/slist.h common/tailq.h common/util.h
-COMMON_OBJS=	common/escape.o
+lapi.o: lapi.c lprefix.h lua.h luaconf.h lapi.h llimits.h lstate.h \
+ lobject.h ltm.h lzio.h lmem.h ldebug.h ldo.h lfunc.h lgc.h lstring.h \
+ ltable.h lundump.h lvm.h
+lauxlib.o: lauxlib.c lprefix.h lua.h luaconf.h lauxlib.h
+lbaselib.o: lbaselib.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
+lcode.o: lcode.c lprefix.h lua.h luaconf.h lcode.h llex.h lobject.h \
+ llimits.h lzio.h lmem.h lopcodes.h lparser.h ldebug.h lstate.h ltm.h \
+ ldo.h lgc.h lstring.h ltable.h lvm.h
+lcorolib.o: lcorolib.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
+lctype.o: lctype.c lprefix.h lctype.h lua.h luaconf.h llimits.h
+ldblib.o: ldblib.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
+ldebug.o: ldebug.c lprefix.h lua.h luaconf.h lapi.h llimits.h lstate.h \
+ lobject.h ltm.h lzio.h lmem.h lcode.h llex.h lopcodes.h lparser.h \
+ ldebug.h ldo.h lfunc.h lstring.h lgc.h ltable.h lvm.h
+ldo.o: ldo.c lprefix.h lua.h luaconf.h lapi.h llimits.h lstate.h \
+ lobject.h ltm.h lzio.h lmem.h ldebug.h ldo.h lfunc.h lgc.h lopcodes.h \
+ lparser.h lstring.h ltable.h lundump.h lvm.h
+ldump.o: ldump.c lprefix.h lua.h luaconf.h lobject.h llimits.h lstate.h \
+ ltm.h lzio.h lmem.h lundump.h
+lfunc.o: lfunc.c lprefix.h lua.h luaconf.h ldebug.h lstate.h lobject.h \
+ llimits.h ltm.h lzio.h lmem.h ldo.h lfunc.h lgc.h
+lgc.o: lgc.c lprefix.h lua.h luaconf.h ldebug.h lstate.h lobject.h \
+ llimits.h ltm.h lzio.h lmem.h ldo.h lfunc.h lgc.h lstring.h ltable.h
+linit.o: linit.c lprefix.h lua.h luaconf.h lualib.h lauxlib.h
+liolib.o: liolib.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
+llex.o: llex.c lprefix.h lua.h luaconf.h lctype.h llimits.h ldebug.h \
+ lstate.h lobject.h ltm.h lzio.h lmem.h ldo.h lgc.h llex.h lparser.h \
+ lstring.h ltable.h
+lmathlib.o: lmathlib.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
+lmem.o: lmem.c lprefix.h lua.h luaconf.h ldebug.h lstate.h lobject.h \
+ llimits.h ltm.h lzio.h lmem.h ldo.h lgc.h
+loadlib.o: loadlib.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
+lobject.o: lobject.c lprefix.h lua.h luaconf.h lctype.h llimits.h \
+ ldebug.h lstate.h lobject.h ltm.h lzio.h lmem.h ldo.h lstring.h lgc.h \
+ lvm.h
+lopcodes.o: lopcodes.c lprefix.h lopcodes.h llimits.h lua.h luaconf.h
+loslib.o: loslib.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
+lparser.o: lparser.c lprefix.h lua.h luaconf.h lcode.h llex.h lobject.h \
+ llimits.h lzio.h lmem.h lopcodes.h lparser.h ldebug.h lstate.h ltm.h \
+ ldo.h lfunc.h lstring.h lgc.h ltable.h
+lstate.o: lstate.c lprefix.h lua.h luaconf.h lapi.h llimits.h lstate.h \
+ lobject.h ltm.h lzio.h lmem.h ldebug.h ldo.h lfunc.h lgc.h llex.h \
+ lstring.h ltable.h
+lstring.o: lstring.c lprefix.h lua.h luaconf.h ldebug.h lstate.h \
+ lobject.h llimits.h ltm.h lzio.h lmem.h ldo.h lstring.h lgc.h
+lstrlib.o: lstrlib.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
+ltable.o: ltable.c lprefix.h lua.h luaconf.h ldebug.h lstate.h lobject.h \
+ llimits.h ltm.h lzio.h lmem.h ldo.h lgc.h lstring.h ltable.h lvm.h
+ltablib.o: ltablib.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
+ltests.o: ltests.c lprefix.h lua.h luaconf.h lapi.h llimits.h lstate.h \
+ lobject.h ltm.h lzio.h lmem.h lauxlib.h lcode.h llex.h lopcodes.h \
+ lparser.h lctype.h ldebug.h ldo.h lfunc.h lopnames.h lstring.h lgc.h \
+ ltable.h lualib.h
+ltm.o: ltm.c lprefix.h lua.h luaconf.h ldebug.h lstate.h lobject.h \
+ llimits.h ltm.h lzio.h lmem.h ldo.h lgc.h lstring.h ltable.h lvm.h
+lua.o: lua.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
+lundump.o: lundump.c lprefix.h lua.h luaconf.h ldebug.h lstate.h \
+ lobject.h llimits.h ltm.h lzio.h lmem.h ldo.h lfunc.h lstring.h lgc.h \
+ lundump.h
+lutf8lib.o: lutf8lib.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
+lvm.o: lvm.c lprefix.h lua.h luaconf.h ldebug.h lstate.h lobject.h \
+ llimits.h ltm.h lzio.h lmem.h ldo.h lfunc.h lgc.h lopcodes.h lstring.h \
+ ltable.h lvm.h ljumptab.h
+lzio.o: lzio.c lprefix.h lua.h luaconf.h llimits.h lmem.h lstate.h \
+ lobject.h ltm.h lzio.h
 
-common/escape.o:	common/escape.c $(COMMON_HDRS)
-
-CPP_HDRS=	cpp/cpp.h cpp/directive.h cpp/evaluate.h cpp/input.h \
-		cpp/macro.h cpp/token.h cpp/vstring.h
-
-CPP_OBJS=	cpp/cpp.o cpp/directive.o cpp/evaluate.o cpp/input.o \
-		cpp/macro.o cpp/token.o cpp/vstring.o
-
-cpp/cpp.o: 		cpp/cpp.c $(CPP_HDRS) $(COMMON_HDRS)
-cpp/directive.o:	cpp/directive.c $(CPP_HDRS) $(COMMON_HDRS)
-cpp/evaluate.o:		cpp/evaluate.c $(CPP_HDRS) $(COMMON_HDRS)
-cpp/input.o:		cpp/input.c $(CPP_HDRS) $(COMMON_HDRS)
-cpp/macro.o:		cpp/macro.c $(CPP_HDRS) $(COMMON_HDRS)
-cpp/token.o:		cpp/token.c $(CPP_HDRS) $(COMMON_HDRS)
-cpp/vstring.o:		cpp/vstring.c $(CPP_HDRS) $(COMMON_HDRS)
-
-cpp/cpp: $(CPP_OBJS) $(COMMON_OBJS)
-	$(CC) $(CFLAGS) -o cpp/cpp $(CPP_OBJS) $(COMMON_OBJS)
-
-AMD64_HDRS=	cc1/amd64/target_block.h cc1/amd64/target_insn.h \
-		cc1/amd64/amd64.h cc1/amd64/fuse.h cc1/amd64/gen.h \
-		cc1/amd64/insn.h cc1/amd64/peep.h cc1/amd64/reg.h
-
-AMD64_OBJS=	cc1/amd64/target.o \
-		cc1/amd64/amd64.o cc1/amd64/fuse.o cc1/amd64/gen.o \
-		cc1/amd64/insn.o cc1/amd64/peep.o cc1/amd64/reg.o
-
-CC1_HDRS=	cc1/cc1.h cc1/algebra.h cc1/bitset.h cc1/blks.h cc1/block.h \
-		cc1/cast.h cc1/con.h cc1/copy.h cc1/dead.h cc1/dealias.h \
-		cc1/decl.h cc1/dom.h cc1/expr.h cc1/field.h cc1/fold.h \
-		cc1/gen.h cc1/graph.h cc1/init.h cc1/insn.h cc1/kill.h \
-		cc1/lex.h cc1/live.h cc1/load.h cc1/loop.h cc1/opt.h \
-		cc1/output.h cc1/prop.h cc1/regs.h cc1/sched.h cc1/sign.h \
-		cc1/slvn.h cc1/stmt.h cc1/string.h cc1/switch.h cc1/symbol.h \
-		cc1/target.h cc1/testz.h cc1/tree.h cc1/type.h cc1/webs.h \
-		cc1/assoc.h cc1/codes.h cc1/set.h cc1/stack.h \
-		$(AMD64_HDRS)
-
-CC1_OBJS=	cc1/cc1.o cc1/algebra.o cc1/bitset.o cc1/blks.o cc1/block.o \
-		cc1/cast.o cc1/con.o cc1/copy.o cc1/dead.o cc1/dealias.o \
-		cc1/decl.o cc1/dom.o cc1/expr.o cc1/field.o cc1/fold.o \
-		cc1/gen.o cc1/graph.o cc1/init.o cc1/insn.o cc1/kill.o \
-		cc1/lex.o cc1/live.o cc1/load.o cc1/loop.o cc1/opt.o \
-		cc1/output.o cc1/prop.o cc1/regs.o cc1/sched.o cc1/sign.o \
-		cc1/slvn.o cc1/stmt.o cc1/string.o cc1/switch.o cc1/symbol.o \
-		cc1/target.o cc1/testz.o cc1/tree.o cc1/type.o cc1/webs.o
-
-cc1/cc1.o:		cc1/cc1.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/algebra.o:		cc1/algebra.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/bitset.o:		cc1/bitset.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/blks.o:		cc1/blks.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/block.o:		cc1/block.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/cast.o:		cc1/cast.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/con.o:		cc1/con.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/copy.o:		cc1/copy.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/dead.o:		cc1/dead.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/dealias.o:		cc1/dealias.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/decl.o:		cc1/decl.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/dom.o:		cc1/dom.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/expr.o:		cc1/expr.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/field.o:		cc1/field.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/fold.o:		cc1/fold.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/gen.o:		cc1/gen.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/graph.o:		cc1/graph.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/init.o:		cc1/init.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/insn.o:		cc1/insn.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/kill.o:		cc1/kill.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/lex.o:		cc1/lex.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/live.o:		cc1/live.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/load.o:		cc1/load.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/loop.o:		cc1/loop.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/opt.o:		cc1/opt.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/output.o:		cc1/output.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/prop.o:		cc1/prop.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/regs.o:		cc1/regs.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/sched.o:		cc1/sched.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/sign.o:		cc1/sign.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/slvn.o:		cc1/slvn.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/stmt.o:		cc1/stmt.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/string.o:		cc1/string.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/switch.o:		cc1/switch.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/symbol.o:		cc1/symbol.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/target.o:		cc1/target.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/testz.o:		cc1/testz.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/tree.o:		cc1/tree.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/type.o:		cc1/type.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/webs.o:		cc1/webs.c $(CC1_HDRS) $(COMMON_HDRS)
-
-cc1/amd64/amd64.o:   	cc1/amd64/amd64.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/amd64/gen.o:	cc1/amd64/gen.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/amd64/insn.o:   	cc1/amd64/insn.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/amd64/peep.o:   	cc1/amd64/peep.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/amd64/reg.o:	cc1/amd64/reg.c $(CC1_HDRS) $(COMMON_HDRS)
-cc1/amd64/target.o:   	cc1/amd64/target.c $(CC1_HDRS) $(COMMON_HDRS)
-
-cc1/cc1: $(CC1_OBJS) $(COMMON_OBJS) $(AMD64_OBJS)
-	$(CC) $(CFLAGS) -o cc1/cc1 $(CC1_OBJS) $(COMMON_OBJS) $(AMD64_OBJS)
+# (end of Makefile)
