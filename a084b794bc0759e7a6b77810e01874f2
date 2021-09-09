@@ -1,11 +1,5 @@
-/QR*
-/qr*
-/tmp
-/nimcache
-/.curry
-!QR.rb
-gst.im
-/src/lazyk-boot.dat
-/src/blc-boot.dat
-/src/grass-boot.dat
-*.sw*
+.DS_Store
+lib
+dist
+out
+node_modules
