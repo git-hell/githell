@@ -1,4 +1,6 @@
-.cache
-package.json
-package-lock.json
-public
+lib
+dist
+out
+node_modules
+vscode-web-github1s/src/vs
+vscode-web-github1s/extensions
